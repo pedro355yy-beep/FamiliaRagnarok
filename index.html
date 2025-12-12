@@ -1,0 +1,407 @@
+<!doctype html>
+
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RAGNAROK — Família</title>
+  <meta name="description" content="Painel da Família RAGNAROK — Membros, Cofre e Guerras" />
+  <style>
+    /* --- VARIABLES --- */
+    :root{
+      --bg:#0b0f15; --card:#0f1720; --glass: rgba(255,255,255,0.04);
+      --neon-blue: #38b6ff; --neon-purple:#8a4bff; --accent:#ffd166;
+      --glass-border: rgba(255,255,255,0.06);
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#06070a 0%, #0b0f15 100%);color:#e6eef8}
+    a{color:inherit}/* --- LAYOUT --- */
+.container{max-width:1100px;margin:28px auto;padding:20px}
+header{display:flex;align-items:center;gap:18px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo svg{width:64px;height:64px;filter:drop-shadow(0 6px 18px rgba(58,150,255,0.12))}
+.brand{font-size:20px;font-weight:700;letter-spacing:1px}
+nav{margin-left:auto;display:flex;gap:8px}
+.btn{background:linear-gradient(90deg,var(--neon-blue),var(--neon-purple));padding:8px 14px;border-radius:10px;border:none;color:#02101a;font-weight:700;cursor:pointer}
+
+main{display:grid;grid-template-columns:280px 1fr;gap:18px;margin-top:20px}
+.sidebar{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:16px;border-radius:12px;border:1px solid var(--glass-border)}
+.card{background:linear-gradient(180deg,var(--card),rgba(255,255,255,0.015));padding:14px;border-radius:12px;border:1px solid var(--glass-border)}
+
+/* --- SIDEBAR --- */
+.menu{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.menu button{background:transparent;border:1px solid transparent;padding:10px;border-radius:8px;color:var(--neon-blue);text-align:left;cursor:pointer}
+.menu button.active{background:linear-gradient(90deg, rgba(56,182,255,0.06), rgba(138,75,255,0.03));border:1px solid rgba(138,75,255,0.08);box-shadow:0 6px 18px rgba(138,75,255,0.06)}
+
+/* --- DASHBOARD --- */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.big{grid-column:span 2}
+.stat{padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid var(--glass-border)}
+.stat h3{margin:0;font-size:13px;color:#cfe9ff}
+.stat p{font-size:26px;margin:6px 0 0;font-weight:800}
+
+table{width:100%;border-collapse:collapse;margin-top:8px}
+th,td{padding:10px;text-align:left;border-bottom:1px dashed rgba(255,255,255,0.02)}
+
+/* member card */
+.member-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.member{padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--glass-border);display:flex;gap:10px;align-items:center}
+.avatar{width:56px;height:56px;border-radius:999px;background:linear-gradient(135deg,var(--neon-blue),var(--neon-purple));display:flex;align-items:center;justify-content:center;font-weight:800;color:#07121a}
+.member h4{margin:0}
+.tag{font-size:12px;padding:6px;border-radius:8px}
+.tag.leader{background:linear-gradient(90deg,var(--neon-blue),var(--neon-purple));color:#02101a}
+.tag.sub{background:#8a4bff33;color:var(--neon-purple)}
+
+/* forms */
+label{display:block;font-size:13px;margin:6px 0 6px;color:#b9d8ff}
+input,select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+.row{display:flex;gap:8px}
+
+/* responsive */
+@media (max-width:900px){main{grid-template-columns:1fr} .grid{grid-template-columns:1fr} .big{grid-column:auto}}
+
+/* small helper */
+.muted{color:#9fb6d9;font-size:13px}
+.ghost{background:transparent;border:1px dashed rgba(255,255,255,0.03);padding:8px;border-radius:8px}
+
+/* subtle animations */
+.count{font-weight:900;font-size:28px}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <!-- INLINE SVG LOGO - ESTILO VIKING -->
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0" stop-color="#3ab6ff" />
+              <stop offset="1" stop-color="#8a4bff" />
+            </linearGradient>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="6" result="b" />
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- helmet base -->
+          <g filter="url(#glow)">
+            <path d="M30 110 C30 65, 60 40, 100 40 C140 40,170 65,170 110 L30 110 Z" fill="url(#g1)" opacity="0.95"/>
+            <path d="M40 110 C40 90,60 80,100 80 C140 80,160 90,160 110" fill="#061018" opacity="0.18"/>
+            <!-- horns -->
+            <path d="M30 90 C5 80,5 40,30 36" fill="#0e1a26" stroke="#2b3f57" stroke-width="2"/>
+            <path d="M170 90 C195 80,195 40,170 36" fill="#0e1a26" stroke="#2b3f57" stroke-width="2"/>
+            <!-- rune center -->
+            <circle cx="100" cy="74" r="10" fill="#02121a" />
+            <path d="M100 64 L100 84 M92 74 L108 74" stroke="url(#g1)" stroke-width="2" stroke-linecap="round"/>
+          </g>
+        </svg>
+        <div>
+          <div class="brand">RAGNAROK</div>
+          <div class="muted">Família • Honra • Guerra</div>
+        </div>
+      </div>
+      <nav>
+        <button class="btn" id="open-dashboard">Painel</button>
+      </nav>
+    </header><main>
+  <aside class="sidebar card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <strong>Menu</strong>
+      <small class="muted" id="user-label">ADM</small>
+    </div>
+    <ul class="menu">
+      <li><button class="active" data-view="dashboard">Dashboard</button></li>
+      <li><button data-view="membros">Membros</button></li>
+      <li><button data-view="cofre">Cofre</button></li>
+      <li><button data-view="guerras">Guerras</button></li>
+      <li><button data-view="adm">Painel ADM</button></li>
+    </ul>
+
+    <div style="margin-top:18px">
+      <div class="muted">Atalhos</div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="ghost" id="add-member">+ Membro</button>
+        <button class="ghost" id="add-deposit">+ Depósito</button>
+      </div>
+    </div>
+  </aside>
+
+  <section>
+    <!-- DASHBOARD VIEW -->
+    <div class="card" id="view-dashboard">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2>Bem-vindo, RAGNAROK</h2>
+        <div class="muted">Painel resumo</div>
+      </div>
+
+      <div class="grid" style="margin-top:12px">
+        <div class="stat">
+          <h3>Total de Membros</h3>
+          <p class="count" id="total-members">0</p>
+        </div>
+        <div class="stat">
+          <h3>Total de Dinheiro</h3>
+          <p class="count" id="total-dinheiro">0</p>
+        </div>
+        <div class="stat">
+          <h3>Total de Colete</h3>
+          <p class="count" id="total-colete">0</p>
+        </div>
+
+        <div class="card big" style="padding:12px">
+          <h3 style="margin-top:0">Últimos Depósitos</h3>
+          <table id="table-deposits"><thead><tr><th>Jogador</th><th>Tipo</th><th>Quantidade</th><th>Data</th></tr></thead><tbody></tbody></table>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-top:0">Resumo Guerras</h3>
+          <table id="table-guerras"><thead><tr><th>Guerra</th><th>Data</th><th>Presentes</th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEMBROS VIEW -->
+    <div class="card" id="view-membros" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2>Membros</h2>
+        <div class="muted">Gerencie todos os membros</div>
+      </div>
+
+      <div style="margin-top:14px">
+        <div class="row" style="margin-bottom:10px">
+          <input id="search-member" placeholder="Procurar por nome" />
+          <select id="filter-role"><option value="all">Todos os cargos</option><option value="Lider">Líder</option><option value="Sub">Sub-líder</option><option value="Membro">Membro</option><option value="Recruta">Recruta</option></select>
+        </div>
+
+        <div class="member-grid" id="members-list"></div>
+      </div>
+    </div>
+
+    <!-- COFRE VIEW -->
+    <div class="card" id="view-cofre" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2>Cofre</h2>
+        <div class="muted">Somente Dinheiro e Colete</div>
+      </div>
+
+      <div style="margin-top:12px;display:flex;gap:12px">
+        <div class="stat" style="flex:1">
+          <h3>Total Dinheiro</h3>
+          <p class="count" id="cofre-dinheiro">0</p>
+        </div>
+        <div class="stat" style="flex:1">
+          <h3>Total Colete</h3>
+          <p class="count" id="cofre-colete">0</p>
+        </div>
+        <div style="flex:1" class="card">
+          <h3>Registrar Depósito</h3>
+          <label>Jogador</label>
+          <input id="input-dep-player" />
+          <label>Tipo</label>
+          <select id="input-dep-type"><option value="dinheiro">💰 Dinheiro</option><option value="colete">🦺 Colete</option></select>
+          <label>Quantidade</label>
+          <input id="input-dep-amount" type="number" />
+          <div style="margin-top:8px"><button class="btn" id="save-deposit">Registrar</button></div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px">
+        <h3>Histórico de Depósitos</h3>
+        <table id="deposits-table"><thead><tr><th>Jogador</th><th>Tipo</th><th>Quantidade</th><th>Data</th><th>Ação</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+
+    <!-- GUERRAS VIEW -->
+    <div class="card" id="view-guerras" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2>Guerras</h2>
+        <div class="muted">Crie e gerencie presenças</div>
+      </div>
+
+      <div style="margin-top:12px;display:flex;gap:12px">
+        <div style="flex:1" class="card">
+          <h3>Criar Guerra</h3>
+          <label>Nome</label>
+          <input id="input-war-name" />
+          <label>Data</label>
+          <input id="input-war-date" type="date" />
+          <div style="margin-top:8px"><button class="btn" id="create-war">Criar Guerra</button></div>
+        </div>
+
+        <div style="flex:2" class="card">
+          <h3>Lista de Guerras</h3>
+          <table id="wars-table"><thead><tr><th>Nome</th><th>Data</th><th>Ações</th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADM VIEW -->
+    <div class="card" id="view-adm" style="display:none">
+      <h2>Painel ADM</h2>
+      <div class="row" style="margin-top:10px">
+        <div style="flex:1" class="card">
+          <h3>Adicionar Membro</h3>
+          <label>Nome</label>
+          <input id="new-name" />
+          <label>Cargo</label>
+          <select id="new-role"><option value="Membro">Membro</option><option value="Sub">Sub-líder</option><option value="Lider">Líder</option><option value="Recruta">Recruta</option></select>
+          <label>Email (login)</label>
+          <input id="new-email" />
+          <label>Senha (temporária)</label>
+          <input id="new-pass" type="password" />
+          <div style="margin-top:8px"><button class="btn" id="create-member">Criar</button></div>
+        </div>
+
+        <div style="flex:1" class="card">
+          <h3>Exportar Relatório</h3>
+          <p class="muted">Baixe CSV com membros, presenças e depósitos.</p>
+          <div style="margin-top:10px"><button class="ghost" id="export-csv">Exportar CSV</button></div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<footer style="margin-top:22px;text-align:center;color:#7699c9">Feito para Família RAGNAROK — design moderno</footer>
+
+  </div>  <script>
+    /* ====== SIMPLE FRONT-END + FIRESTORE INTEGRATION (replace firebaseConfig below) ======
+       Instructions:
+         1) Crie um projeto no Firebase (console.firebase.google.com) e habilite Authentication (Email/Password) e Firestore.
+         2) Cole seu firebaseConfig no lugar de firebaseConfigExample.
+         3) Deploy no Netlify / Vercel / GitHub Pages. (Se usar Firestore em modo 'test', ajuste regras de produção depois.)
+    */
+
+    // --- Firebase SDK loader (modular) ---
+    (function loadFirebase(){
+      const s=document.createElement('script'); s.src='https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js'; s.onload=()=>console.log('firebase loaded'); document.head.appendChild(s);
+      const s2=document.createElement('script'); s2.src='https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js'; document.head.appendChild(s2);
+      const s3=document.createElement('script'); s3.src='https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js'; document.head.appendChild(s3);
+    })();
+
+    // ----- Replace this with your Firebase config -----
+    const firebaseConfigExample = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      projectId: "YOUR_PROJECT",
+      storageBucket: "YOUR_PROJECT.appspot.com",
+      messagingSenderId: "...",
+      appId: "..."
+    };
+
+    // Basic app state
+    let db = null;
+    let currentUser = {role: 'ADM', email: 'admin@ragnarok.local'}; // placeholder until firebase initialized
+
+    // Simple in-memory fallback if firebase not configured yet
+    const fallback = {
+      members: [
+        {id:'natan',name:'Natan',role:'Sub',present:15,absent:2,email:'natan@ragnarok'},
+        {id:'black',name:'Black',role:'Lider',present:21,absent:0,email:'black@ragnarok'}
+      ],
+      deposits: [
+        {id:'d1',player:'Black',type:'dinheiro',amount:5000,date:'2025-12-12'},
+        {id:'d2',player:'Natan',type:'colete',amount:3,date:'2025-12-12'}
+      ],
+      wars: []
+    };
+
+    // Utility: format date
+    function nowDate(){ const d=new Date(); return d.toLocaleDateString(); }
+
+    // Simple DOM helpers and view switching
+    document.addEventListener('click', (e)=>{
+      if(e.target.matches('.menu button')){/* handled below */}
+    })
+
+    // handle menu
+    document.querySelectorAll('.menu button').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const view = btn.getAttribute('data-view');
+        document.querySelectorAll('[id^="view-"]').forEach(v=>v.style.display='none');
+        document.getElementById('view-'+view).style.display='block';
+        renderAll();
+      });
+    });
+
+    // quick open
+    document.getElementById('open-dashboard').addEventListener('click', ()=>{
+      document.querySelector('[data-view="dashboard"]').click();
+    });
+
+    // add member modal shortcut
+    document.getElementById('add-member').addEventListener('click', ()=>{ document.querySelector('[data-view="adm"]').click(); });
+    document.getElementById('add-deposit').addEventListener('click', ()=>{ document.querySelector('[data-view="cofre"]').click(); });
+
+    // create member (ADM)
+    document.getElementById('create-member').addEventListener('click', ()=>{
+      const name=document.getElementById('new-name').value.trim(); const role=document.getElementById('new-role').value; const email=document.getElementById('new-email').value; const pass=document.getElementById('new-pass').value;
+      if(!name||!email){alert('Preencha nome e e-mail');return}
+      // if firebase is configured, create user & doc; else fallback
+      fallback.members.push({id: 'm'+Date.now(), name, role, present:0, absent:0, email});
+      alert('Membro criado (modo demonstração).'); renderAll();
+    });
+
+    // save deposit
+    document.getElementById('save-deposit').addEventListener('click', ()=>{
+      const player=document.getElementById('input-dep-player').value.trim(); const type=document.getElementById('input-dep-type').value; const amount=Number(document.getElementById('input-dep-amount').value);
+      if(!player||!amount){alert('Preencha jogador e quantidade');return}
+      const dep={id:'d'+Date.now(),player,type,amount,date:nowDate()}; fallback.deposits.unshift(dep); alert('Depósito registrado (demo).'); renderAll();
+    });
+
+    // create war
+    document.getElementById('create-war').addEventListener('click', ()=>{
+      const name=document.getElementById('input-war-name').value.trim(); const date=document.getElementById('input-war-date').value;
+      if(!name||!date){alert('Preencha nome e data');return}
+      const war={id:'w'+Date.now(),name,date,attendees:[]}; fallback.wars.unshift(war); alert('Guerra criada (demo).'); renderAll();
+    });
+
+    // export CSV
+    document.getElementById('export-csv').addEventListener('click', ()=>{
+      const rows=[['Nome','Cargo','Presenças','Faltas','Email']]; fallback.members.forEach(m=>rows.push([m.name,m.role,m.present,m.absent,m.email]));
+      const csv = rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
+      const blob=new Blob([csv],{type:'text/csv'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='ragnarok_membros.csv'; a.click(); URL.revokeObjectURL(url);
+    });
+
+    // rendering functions
+    function renderAll(){ renderDashboard(); renderMembers(); renderCofre(); renderWars(); }
+
+    function renderDashboard(){
+      document.getElementById('total-members').textContent = fallback.members.length;
+      const totalDin = fallback.deposits.filter(d=>d.type==='dinheiro').reduce((s,d)=>s+d.amount,0);
+      const totalColete = fallback.deposits.filter(d=>d.type==='colete').reduce((s,d)=>s+d.amount,0);
+      document.getElementById('total-dinheiro').textContent = totalDin.toLocaleString();
+      document.getElementById('total-colete').textContent = totalColete;
+
+      // deposits table
+      const tbody = document.querySelector('#table-deposits tbody'); tbody.innerHTML=''; fallback.deposits.slice(0,8).forEach(d=>{
+        const tr=document.createElement('tr'); tr.innerHTML=`<td>${d.player}</td><td>${d.type=='dinheiro'?'💰 Dinheiro':'🦺 Colete'}</td><td>${d.amount}</td><td>${d.date}</td>`; tbody.appendChild(tr);
+      });
+
+      // wars table
+      const wt=document.querySelector('#table-guerras tbody'); wt.innerHTML=''; fallback.wars.slice(0,8).forEach(w=>{
+        const present = w.attendees? w.attendees.length:0; const tr=document.createElement('tr'); tr.innerHTML=`<td>${w.name}</td><td>${w.date}</td><td>${present}</td>`; wt.appendChild(tr);
+      });
+    }
+
+    function renderMembers(){
+      const wrap=document.getElementById('members-list'); wrap.innerHTML=''; fallback.members.forEach(m=>{
+        const div=document.createElement('div'); div.className='member';
+        div.innerHTML=`<div class="avatar">${m.name.slice(0,2).toUpperCase()}</div><div style="flex:1"><h4>${m.name}</h4><div class="muted">${m.email||''}</div></div><div style="text-align:right"><div class="tag ${m.role.toLowerCase()==='lider'?'leader':'sub'}">${m.role}</div><div class="muted" style="margin-top:6px">P:${m.present} • F:${m.absent}</div></div>`;
+        wrap.appendChild(div);
+      });
+      document.getElementById('search-member').addEventListener('input', (e)=>{
+        const q=e.target.value.toLowerCase(); Array.from(wrap.children).forEach(c=>{ const show = c.querySelector('h4').textContent.toLowerCase().includes(q); c.style.display = show? 'flex':'none'; });
+      });
+    }
+
+    function renderCofre(){
+      const dinheiro = fallback.deposits.filter(d=>d.type==='dinheiro').reduce((s,d)=>s+d.amount,0);
+      const colete = fallback.deposits.filter(d=>d.type==='colete').reduce((s,d)=>s+d.amount,0);
+      documen
